@@ -15,7 +15,7 @@ class AbstractPreprocessor:
 
 class Pipeline:
 
-    def __init__(self, model: AbstractModel, preprocessor: AbstractModel = None) -> None:
+    def __init__(self, model: AbstractModel, preprocessor: AbstractPreprocessor = None) -> None:
         self.model = model
         self.preprocessor = preprocessor
 
@@ -26,7 +26,7 @@ class Pipeline:
         if self.preprocessor:
             X = self.preprocessor.transform(X)
 
-        self.model.fit(X, y)
+        self.model.train(X, y)
         return
 
     def predict(self, data):
