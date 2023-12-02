@@ -9,7 +9,7 @@ class AbstractModel:
 
 class AbstractPreprocessor:
 
-    def transform(data):
+    def transform(self, data):
         return data
 
 
