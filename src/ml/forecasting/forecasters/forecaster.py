@@ -5,7 +5,7 @@ from typing import List, Dict
 
 
 class Forecaster(ABC):
-
+    
     def __init__(self, name: str) -> None:
         self.name = name
 
