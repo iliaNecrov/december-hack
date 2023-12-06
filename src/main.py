@@ -1,3 +1,5 @@
+import uvicorn
+
 from fastapi import FastAPI
 
 from stocks.stocks_controller import get_ticker_info_from_moex, get_tickers_from_moex
@@ -25,3 +27,4 @@ def get_ticker_info_for_plot(ticker: str):
         prediction["anomaly"] = anomalies[k]
 
     return {"actual": data, "predicted": predictions}
+

@@ -15,7 +15,10 @@ def get_tickers_from_moex() -> List[str]:
     
     stocks = Market('stocks').obstats(date=today, latest=True) 
 
-    return stocks.ticker.unique().tolist()
+    if not isinstance(stocks, pd.DataFrame):
+        stocks = pd.DataFrame(stocks)
+
+    return stocks.secid.unique().tolist()
 
 
 def get_ticker_info_from_moex(ticker: str, price_column: str = DEFAULT_PRICE_COLUMN) -> List[Dict[str, float | int]]:
@@ -31,8 +34,10 @@ def get_ticker_info_from_moex(ticker: str, price_column: str = DEFAULT_PRICE_COL
     
     ticker_data = Ticker(ticker).tradestats(date=days_ago, till_date=today)
 
-    timestamps = [datetime.combine(ticker_data.tradedate[k], ticker_data.tradetime[k]).timestamp() for k in range(len(ticker_data))]
-    timestamps = list(map(lambda d: int(d), timestamps))
+    if not isinstance(ticker_data, pd.DataFrame):
+        ticker_data = pd.DataFrame(ticker_data)
+
+    timestamps = ticker_data.ts.apply(lambda d: d.timestamp()).tolist()
 
     prices = ticker_data[price_column].tolist()
 
