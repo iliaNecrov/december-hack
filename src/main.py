@@ -1,6 +1,7 @@
 import uvicorn
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from stocks.stocks_controller import get_ticker_info_from_moex, get_tickers_from_moex
 
@@ -9,6 +10,16 @@ from ml.anomaly_detection.anomaly_detection_controller import get_anomalies
 
 
 app = FastAPI()
+
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/tickers")
