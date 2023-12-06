@@ -19,9 +19,9 @@ def get_ticker_info_for_plot(ticker: str):
     data = get_ticker_info_from_moex(ticker)
 
     predictions = get_predictions_for_ticker(data, ticker)
-    anomalies = get_anomalies(data)
+    anomalies = [0, 0, 0, 0, 1, 0, 0, 0, 1, 0]
 
     for k, prediction in enumerate(predictions):
         prediction["anomaly"] = anomalies[k]
 
-    return predictions
+    return {"actual": data, "predicted": predictions}
