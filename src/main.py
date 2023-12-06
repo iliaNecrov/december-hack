@@ -31,8 +31,20 @@ def get_tickers():
 def get_ticker_info_for_plot(ticker: str):
     data = get_ticker_info_from_moex(ticker)
 
-    predictions = get_predictions_for_ticker(data, ticker)
-    anomalies = [0, 0, 0, 0, 1, 0, 0, 0, 1, 0]
+    #predictions = get_predictions_for_ticker(data, ticker)
+    predictions = []
+    for k in range(20):
+        price = data[-1]["price"]
+        time = data[-1]["time"]
+        
+        predictions.append({
+            "price": price,
+            "upper_price": price + 30,
+            "lower_price": price - 30,
+            "time": time + k * 1000 * 60 * 5
+        })
+
+    anomalies = [0] * len(predictions)
 
     for k, prediction in enumerate(predictions):
         prediction["anomaly"] = anomalies[k]

@@ -37,7 +37,7 @@ def get_ticker_info_from_moex(ticker: str, price_column: str = DEFAULT_PRICE_COL
     if not isinstance(ticker_data, pd.DataFrame):
         ticker_data = pd.DataFrame(ticker_data)
 
-    timestamps = ticker_data.ts.apply(lambda d: d.timestamp()).tolist()
+    timestamps = ticker_data.ts.apply(lambda d: int(d.timestamp())).tolist()
 
     prices = ticker_data[price_column].tolist()
 
