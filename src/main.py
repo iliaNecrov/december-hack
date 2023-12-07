@@ -33,15 +33,16 @@ def get_ticker_info_for_plot(ticker: str):
 
     #predictions = get_predictions_for_ticker(data, ticker)
     predictions = []
+
+    price = data[-1]["price"]
+    time = data[-1]["time"]
+    
     for k in range(20):
-        price = data[-1]["price"]
-        time = data[-1]["time"]
-        
         predictions.append({
             "price": price,
             "upper_price": price + 30,
             "lower_price": price - 30,
-            "time": time + k * 1000 * 60 * 5
+            "time": time + k * 60 * 5
         })
 
     anomalies = [0] * len(predictions)

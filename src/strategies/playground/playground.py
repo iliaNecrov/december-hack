@@ -3,7 +3,11 @@ import pandas as pd
 
 from moexalgo import Ticker, Market
 
-from ..strategy.strategy import Strategy
+from .agent import Agent
+
+from ..strategy.strategy import Decision
+
+from typing import List, Tuple
 
 
 class Playground:
@@ -11,10 +15,14 @@ class Playground:
     def __init__(self, ticker: str, date: str, till_date: str):
         self.history = Ticker(ticker).tradestats(date=date, till_date=till_date)
 
-        self.history_iterator = iter(self.history)
+        if not isinstance(self.history, pd.DataFrame):
+            self.history = pd.DataFrame(self.history)
 
-    def init(self) -> None:
-        self.history_iterator = iter(self.history)
+    def backtest(self, agent: Agent) -> Tuple[List[Decision], float]:
+        decisions: List[Decision] = []
+        
+        for _, state in self.history.iterrows():
+            decisions.append(
+                agent.action(state)
+            )
 
-    def validate(self, strategy: Strategy):
-        pass
