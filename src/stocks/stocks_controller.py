@@ -8,6 +8,7 @@ from typing import List, Dict
 
 DEFAULT_PRICE_COLUMN = "pr_open"
 DEFAULT_TIME_DELTA_IN_DAYS = 2
+MILISECONDS_IN_SECOND = 1_000
 
 
 def get_tickers_from_moex() -> List[str]:
@@ -37,7 +38,7 @@ def get_ticker_info_from_moex(ticker: str, price_column: str = DEFAULT_PRICE_COL
     if not isinstance(ticker_data, pd.DataFrame):
         ticker_data = pd.DataFrame(ticker_data)
 
-    timestamps = ticker_data.ts.apply(lambda d: int(d.timestamp())).tolist()
+    timestamps = ticker_data.ts.apply(lambda d: int(d.timestamp() * MILISECONDS_IN_SECOND)).tolist()
 
     prices = ticker_data[price_column].tolist()
 

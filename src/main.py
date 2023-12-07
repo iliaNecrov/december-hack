@@ -42,7 +42,7 @@ def get_ticker_info_for_plot(ticker: str):
             "price": price,
             "upper_price": price + 30,
             "lower_price": price - 30,
-            "time": time + k * 60 * 5
+            "time": time + k * 1000 * 60 * 5
         })
 
     anomalies = [0] * len(predictions)
