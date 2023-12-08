@@ -3,7 +3,10 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from datetime import datetime
+
 from stocks.stocks_controller import get_ticker_info_from_moex, get_tickers_from_moex
+from strategies.strategies_controller import get_results_of_backtest
 
 from ml.forecasting.forecasting_controller import get_predictions_for_ticker
 from ml.anomaly_detection.anomaly_detection_controller import get_anomalies
@@ -23,12 +26,12 @@ app.add_middleware(
 
 
 @app.get("/tickers")
-def get_tickers():
+def tickers():
     return get_tickers_from_moex()
 
 
 @app.get("/stock_info/{ticker}")
-def get_ticker_info_for_plot(ticker: str):
+def ticker_info_for_plot(ticker: str):
     data = get_ticker_info_from_moex(ticker)
 
     #predictions = get_predictions_for_ticker(data, ticker)
@@ -52,3 +55,13 @@ def get_ticker_info_for_plot(ticker: str):
 
     return {"actual": data, "predicted": predictions}
 
+
+@app.get("/backtest/{ticker}")
+def backtest(ticker: str, date: int, till_date: int, balance: int, strategy_type: str):
+    date = datetime.fromtimestamp(int(date) // 1_000)
+    date = date.strftime('%Y-%m-%d')
+
+    till_date = datetime.fromtimestamp(int(till_date) // 1_000)
+    till_date = till_date.strftime('%Y-%m-%d')
+    
+    return get_results_of_backtest(ticker, date, till_date, balance, strategy_type)
