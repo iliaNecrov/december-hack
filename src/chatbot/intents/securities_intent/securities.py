@@ -9,7 +9,7 @@ from tabulate import tabulate
 class SecuritiesIntent:
     available_tickers = ["SBER", "OZON", "YNDX", "TCSG"]
     columns_to_use = ['ts', 'pr_open', 'pr_high', 'pr_low', 'pr_close']
-    date_column = "Date                                    1"
+    date_column = "Date                  "
     columns_to_replace = {
                             "ts": date_column,
                             "pr_open": "Open",
