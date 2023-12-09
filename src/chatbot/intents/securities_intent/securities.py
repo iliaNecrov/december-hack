@@ -7,10 +7,9 @@ import pandas as pd
 
 class SecuritiesIntent:
     available_tickers = ["SBER", "OZON", "YNDX", "TCSG"]
-    columns_to_use = ['tradedate', 'tradetime', 'pr_open', 'pr_high', 'pr_low', 'pr_close']
+    columns_to_use = ['ts', 'pr_open', 'pr_high', 'pr_low', 'pr_close']
     columns_to_replace = {
-                            "tradedate": "Дата",
-                            "tradetime": "Время",
+                            "ts": "Дата",
                             "pr_open": "Цена открытия",
                             "pr_high": "Максимальная цена",
                             "pr_low": "Минимальная цена",
