@@ -42,7 +42,7 @@ class SecuritiesIntent:
         Перевести пандас в строку и вывести только head и tail
         """
         # убрать секунды из датафрейма
-        data['Дата'] = pd.to_datetime(data['Дата']).dt.floor('min')
+        data['Дата'] = pd.to_datetime(data['Дата']).dt.strftime('%Y-%m-%d %H:%M')
 
         head = data.head().to_string(index=False)
         tail = "\n".join(data.tail().to_string(index=False).split('\n')[1:])
