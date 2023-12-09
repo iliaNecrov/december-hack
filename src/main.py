@@ -12,7 +12,7 @@ from strategies.strategies_controller import get_results_of_backtest
 from ml.forecasting.forecasting_controller import get_predictions_for_ticker
 from ml.anomaly_detection.anomaly_detection_controller import get_anomalies
 
-from chatbot.intents import IntentClassifier
+from chatbot.intents import IntentClassifier, GoogleNewsIntent
 
 
 app = FastAPI()
@@ -79,3 +79,8 @@ def chat(user_message: Message):
     answer = IntentClassifier.get_answer(user_message.text)
 
     return {"text": answer}
+
+
+@app.get("/news/{ticker}")
+def news(ticker: str):
+    return GoogleNewsIntent.get_news(company=ticker, news_section=True)
