@@ -4,10 +4,9 @@ from langchain.embeddings import HuggingFaceEmbeddings
 import os
 
 embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/xlm-r-100langs-bert-base-nli-stsb-mean-tokens")
+vectordb = Chroma(persist_directory='./intents/database_intent/data', embedding_function=embeddings)
 
 class DatabaseIntent:
-    print(os.listdir())
-    vectordb = Chroma(persist_directory='./intents/database_intent/data', embedding_function=embeddings)
 
     @staticmethod
     def create_structed_text(documents: list) -> str:
@@ -19,8 +18,7 @@ class DatabaseIntent:
 
     @classmethod
     def get_result(cls, message:str) -> str:
-        possible_documents = cls.vectordb.similarity_search(message)
-        print(possible_documents)
+        possible_documents = vectordb.similarity_search(message)
         document_info = cls.create_structed_text(possible_documents)
         prompt = cls.create_prompt(message, document_info)
         return gpt.get_response(prompt)

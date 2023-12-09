@@ -1,11 +1,12 @@
 from .google_intent.google_news import GoogleNewsIntent
 from .database_intent.algo_database import DatabaseIntent
+from .securities_intent.securities import SecuritiesIntent
 from gpt_api import GPT_API as gpt
 import warnings
 
 
 class IntentClassifier:
-    intents = {"новости": GoogleNewsIntent, "goalgo": DatabaseIntent}
+    intents = {"новости": GoogleNewsIntent, "goalgo": DatabaseIntent, "акции": SecuritiesIntent}
 
     @staticmethod
     def get_prompt(message: str) -> str:
@@ -21,7 +22,9 @@ class IntentClassifier:
                 f"""Что означает параметр cancel_orders_b в данных?": {{"intent": "goalgo"}}\n"""
                 f"""Как зовут собаку, которая ждала своего хозяина?": {{"intent": "другое"}}\n"""
                 f"""Какие новости Тинькоффа на рынке?": {{"intent": "новости"}}\n"""
-                f"""Привет, как дела?": {{"intent": "другое"}}\n"""
+                f"""Привет, как дела?": {{"intent": "другое"}}\n"""\
+                f"""Покажи данные об акции Тинькофф за вчера": {{"intent": "акции"}}\n"""
+                f"""Выведи данные сбербанка за прошлую неделю": {{"intent": "акции"}}\n"""
                 f"""{message}: """)
     
     @classmethod
