@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 from urllib.parse import quote
-from typing import Tuple, List, Dict
+from typing import Tuple, List, Dict, Union
 from ...gpt_api import GPT_API as gpt
 
 
@@ -94,7 +94,7 @@ class GoogleNewsIntent:
     
     @classmethod
     def get_news(cls, company: str, start_date: str = None, end_date: str = None,
-                  news_section: bool = False) -> str:
+                  news_section: bool = False) -> Union[str, List[Dict[str, str]]]:
         """
         Получить новости по API
         
