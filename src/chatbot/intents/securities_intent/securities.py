@@ -50,7 +50,7 @@ class SecuritiesIntent:
         Перевести пандас в строку и вывести только head и tail
         """
         # убрать секунды из датафрейма
-        data['Дата'] = pd.to_datetime(data['Дата']).dt.strftime('%Y-%m-%d %H:%M')
+        data['Date'] = pd.to_datetime(data['Дата']).dt.strftime('%Y-%m-%d %H:%M')
 
         # длина нашей таблица и серединное значение
         length = len(self._make_grid_table(data.tail()).split("\n")[0])
