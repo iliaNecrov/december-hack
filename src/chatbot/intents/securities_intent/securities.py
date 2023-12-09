@@ -55,7 +55,7 @@ class SecuritiesIntent:
 
         # длина нашей таблица и серединное значение
         length = len(self._make_grid_table(data.tail()).split("\n")[0])
-        middle = int(length-5/2)
+        middle = int((length-5)/2)
         # добавление сепаратора для верхней части таблицы и нижней
         string = " "*length * 2
         separator_string = "|" + string[1:middle-3] + '...' + string[middle:-1] + "|"
