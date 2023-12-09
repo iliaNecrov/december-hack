@@ -3,9 +3,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 from urllib.parse import quote
 from typing import Tuple
-#from gpt_api import GPT_API as gpt
-
-from ...gpt_api import GPT_API as gpt
+from gpt_api import GPT_API as gpt
 
 
 class GoogleNewsIntent:
