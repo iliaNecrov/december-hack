@@ -94,6 +94,9 @@ class SecuritiesIntent:
         # Получение данных по API
         table = Ticker(ticker).tradestats(date=start_date, till_date=end_date)
 
+        if not isinstance(table, pd.DataFrame):
+            table = pd.DataFrame(table)
+
         # В случае если данные в таблице отсутствуют, сообщаем об этом пользователю
         if len(table) == 0:
             return "Нет данных за данный временной интервал!"
