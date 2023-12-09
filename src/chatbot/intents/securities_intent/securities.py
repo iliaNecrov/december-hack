@@ -9,8 +9,9 @@ from tabulate import tabulate
 class SecuritiesIntent:
     available_tickers = ["SBER", "OZON", "YNDX", "TCSG"]
     columns_to_use = ['ts', 'pr_open', 'pr_high', 'pr_low', 'pr_close']
+    date_column = "Date                       1"
     columns_to_replace = {
-                            "ts": "Date",
+                            "ts": date_column,
                             "pr_open": "Open",
                             "pr_high": "Close",
                             "pr_low": "MIN",
@@ -50,7 +51,7 @@ class SecuritiesIntent:
         Перевести пандас в строку и вывести только head и tail
         """
         # убрать секунды из датафрейма
-        data['Date'] = pd.to_datetime(data['Date']).dt.strftime('%Y-%m-%d %H:%M')
+        data[self.date_column] = pd.to_datetime(data[self.date_column]).dt.strftime('%Y-%m-%d %H:%M')
 
         # длина нашей таблица и серединное значение
         length = len(self._make_grid_table(data.tail()).split("\n")[0])
@@ -61,8 +62,6 @@ class SecuritiesIntent:
         # верхняя и нижняя часть таблицы для вывода
         head = self._make_grid_table(data.head())
         tail = "\n".join(self._make_grid_table(data.tail()).split("\n")[2:])
-        # table adjuster
-        data.rename(columns={"Date": "Date                           1"}, inplace=True) 
 
         return "\n".join([head, separator_string, tail]).replace("=", '-')
 
