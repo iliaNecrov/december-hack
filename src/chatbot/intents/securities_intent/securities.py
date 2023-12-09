@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from typing import Tuple
 from ...gpt_api import GPT_API as gpt
 import pandas as pd
+from tabulate import tabulate
 
 
 class SecuritiesIntent:
@@ -37,17 +38,30 @@ class SecuritiesIntent:
         return ticker, start_date, end_date
 
     @staticmethod
-    def __prepare_output_table(data: pd.DataFrame) -> str:
+    def _make_grid_table(data: pd.DataFrame) -> str:
+        """
+        Сделать строчную таблицу для вывода в UI
+        """
+        return tabulate(data, headers = "keys", tablefmt='grid')
+
+
+    def __prepare_output_table(self, data: pd.DataFrame) -> str:
         """
         Перевести пандас в строку и вывести только head и tail
         """
         # убрать секунды из датафрейма
         data['Дата'] = pd.to_datetime(data['Дата']).dt.strftime('%Y-%m-%d %H:%M')
 
-        head = data.head().to_string(index=False)
-        tail = "\n".join(data.tail().to_string(index=False).split('\n')[1:])
+        # длина нашей таблица и серединное значение
+        length = len(self._make_grid_table(data.tail()).split("\n")[0])
+        middle = int(length/2)
+        string = " "*length
+        separator_string = "|" + string[1:middle-3] + '...' + string[middle:-1] + "|"
 
-        return "\n".join([head, "   ...", tail])
+        head = self._make_grid_table(data.head())
+        tail = "\n".join(self._make_grid_table(data.tail()).split("\n")[2:])
+
+        return "\n".join([head, separator_string, tail])
 
     @staticmethod
     def get_prompt(message: str) -> str:
