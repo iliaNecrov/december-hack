@@ -19,7 +19,8 @@ def get_tickers_from_moex() -> List[str]:
     if not isinstance(stocks, pd.DataFrame):
         stocks = pd.DataFrame(stocks)
 
-    return stocks.secid.unique().tolist()
+    #return stocks.secid.unique().tolist()
+    return ["SBER", "YNDX", "VKCO", "OZON", "TCSG"]
 
 
 def get_ticker_info_from_moex(ticker: str, price_column: str = DEFAULT_PRICE_COLUMN) -> List[Dict[str, float | int]]:
