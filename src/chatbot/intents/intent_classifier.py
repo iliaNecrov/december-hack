@@ -1,6 +1,7 @@
 from .google_intent.google_news import GoogleNewsIntent
 from .database_intent.algo_database import DatabaseIntent
-from gpt_api import GPT_API as gpt
+from ..gpt_api import GPT_API as gpt
+
 import warnings
 
 
@@ -44,5 +45,3 @@ class IntentClassifier:
         intent = cls.intents[intent_class]
 
         return intent.get_result(message)
-        
-

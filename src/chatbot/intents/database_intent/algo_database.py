@@ -1,4 +1,4 @@
-from gpt_api import GPT_API as gpt
+from ...gpt_api import GPT_API as gpt
 from langchain.vectorstores import Chroma
 from langchain.embeddings import HuggingFaceEmbeddings
 import os

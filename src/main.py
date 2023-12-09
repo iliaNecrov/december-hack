@@ -2,6 +2,7 @@ import uvicorn
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 
 from datetime import datetime
 
@@ -10,6 +11,8 @@ from strategies.strategies_controller import get_results_of_backtest
 
 from ml.forecasting.forecasting_controller import get_predictions_for_ticker
 from ml.anomaly_detection.anomaly_detection_controller import get_anomalies
+
+from chatbot.intents import IntentClassifier
 
 
 app = FastAPI()
@@ -23,6 +26,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+class Message(BaseModel):
+    text: str
 
 
 @app.get("/tickers")
@@ -65,3 +72,10 @@ def backtest(ticker: str, date: int, till_date: int, balance: int, strategy_type
     till_date = till_date.strftime('%Y-%m-%d')
     
     return get_results_of_backtest(ticker, date, till_date, balance, strategy_type)
+
+
+@app.post("/message")
+def chat(user_message: Message):
+    answer = IntentClassifier.get_answer(user_message.text)
+
+    return {"text": answer}
