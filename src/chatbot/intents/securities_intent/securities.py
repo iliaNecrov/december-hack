@@ -10,10 +10,10 @@ class SecuritiesIntent:
     columns_to_use = ['ts', 'pr_open', 'pr_high', 'pr_low', 'pr_close']
     columns_to_replace = {
                             "ts": "Дата",
-                            "pr_open": "Цена открытия",
-                            "pr_high": "Максимальная цена",
-                            "pr_low": "Минимальная цена",
-                            "pr_close": "Цена закрытия"
+                            "pr_open": "Открытие",
+                            "pr_high": "Закрытие",
+                            "pr_low": "MIN",
+                            "pr_close": "MAX"
                          }
 
     @staticmethod
@@ -41,6 +41,9 @@ class SecuritiesIntent:
         """
         Перевести пандас в строку и вывести только head и tail
         """
+        # убрать секунды из датафрейма
+        data['Дата'] = pd.to_datetime(data['Дата']).dt.floor('min')
+
         head = data.head().to_string(index=False)
         tail = "\n".join(data.tail().to_string(index=False).split('\n')[1:])
 
