@@ -1,7 +1,7 @@
 from moexalgo import Ticker
 from datetime import datetime, timedelta
 from typing import Tuple
-from gpt_api import GPT_API as gpt
+from ...gpt_api import GPT_API as gpt
 import pandas as pd
 
 

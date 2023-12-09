@@ -1,10 +1,12 @@
-from gpt_api import GPT_API as gpt
+from ...gpt_api import GPT_API as gpt
 from langchain.vectorstores import Chroma
 from langchain.embeddings import HuggingFaceEmbeddings
 import os
 
+PATH = "chatbot/intents/database_intent/data"
+
 embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/xlm-r-100langs-bert-base-nli-stsb-mean-tokens")
-vectordb = Chroma(persist_directory='./intents/database_intent/data', embedding_function=embeddings)
+vectordb = Chroma(persist_directory=PATH, embedding_function=embeddings)
 
 class DatabaseIntent:
 

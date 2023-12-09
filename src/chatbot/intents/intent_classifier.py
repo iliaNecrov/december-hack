@@ -1,7 +1,7 @@
 from .google_intent.google_news import GoogleNewsIntent
 from .database_intent.algo_database import DatabaseIntent
 from .securities_intent.securities import SecuritiesIntent
-from gpt_api import GPT_API as gpt
+from ..gpt_api import GPT_API as gpt
 import warnings
 
 
