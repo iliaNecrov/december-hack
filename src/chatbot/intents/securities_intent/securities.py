@@ -10,9 +10,9 @@ class SecuritiesIntent:
     available_tickers = ["SBER", "OZON", "YNDX", "TCSG"]
     columns_to_use = ['ts', 'pr_open', 'pr_high', 'pr_low', 'pr_close']
     columns_to_replace = {
-                            "ts": "Дата",
-                            "pr_open": "Открытие",
-                            "pr_high": "Закрытие",
+                            "ts": "Date",
+                            "pr_open": "Open",
+                            "pr_high": "Close",
                             "pr_low": "MIN",
                             "pr_close": "MAX"
                          }
