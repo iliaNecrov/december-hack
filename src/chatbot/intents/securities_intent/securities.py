@@ -62,7 +62,7 @@ class SecuritiesIntent:
         head = self._make_grid_table(data.head())
         tail = "\n".join(self._make_grid_table(data.tail()).split("\n")[2:])
 
-        return "\n".join([head, separator_string, tail])
+        return "\n".join([head, separator_string, tail]).replace("=", '-')
 
     @staticmethod
     def get_prompt(message: str) -> str:
