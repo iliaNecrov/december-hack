@@ -61,6 +61,8 @@ class SecuritiesIntent:
         # верхняя и нижняя часть таблицы для вывода
         head = self._make_grid_table(data.head())
         tail = "\n".join(self._make_grid_table(data.tail()).split("\n")[2:])
+        # table adjuster
+        data.rename(columns={"Date": "Date                "}, inplace=True) 
 
         return "\n".join([head, separator_string, tail]).replace("=", '-')
 
