@@ -17,7 +17,7 @@ class Agent:
 
         self.balance = starting_balance
 
-    def action(self, state: pd.DataFrame | np.ndarray) -> Decision:
+    def action(self, state: np.ndarray) -> Decision:
         """
         По входному состоянию системы принимает решение согласно стратегии.
         """
@@ -41,7 +41,7 @@ class Agent:
 
         return decision
     
-    def get_available_decisions(self, state: pd.DataFrame | np.ndarray) -> List[Decision]:
+    def get_available_decisions(self, state: np.ndarray) -> List[Decision]:
         """
         По входному состоянию системы возвращает список доступных решений в данный момент времени.
         """

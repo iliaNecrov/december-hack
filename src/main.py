@@ -9,8 +9,7 @@ from datetime import datetime
 from stocks.stocks_controller import get_ticker_info_from_moex, get_tickers_from_moex
 from strategies.strategies_controller import get_results_of_backtest
 
-from ml.forecasting.forecasting_controller import get_predictions_for_ticker
-from ml.anomaly_detection.anomaly_detection_controller import get_anomalies
+from forecasting.forecasting_controller import get_predictions_for_ticker
 
 from chatbot.intents import IntentClassifier, GoogleNewsIntent
 
@@ -41,26 +40,23 @@ def tickers():
 def ticker_info_for_plot(ticker: str):
     data = get_ticker_info_from_moex(ticker)
 
-    #predictions = get_predictions_for_ticker(data, ticker)
-    predictions = []
+    timestamps = data.ts.apply(lambda d: int(d.timestamp() * 1_000)).tolist()
 
-    price = data[-1]["price"]
-    time = data[-1]["time"]
+    prices = data["pr_open"].tolist()
+    prices = [{"price": price, "time": timestamp} for price, timestamp in zip(prices, timestamps)]
+
+    predictions = get_predictions_for_ticker(data, ticker)
+
+    time = prices[-1]["time"]
     
-    for k in range(20):
-        predictions.append({
-            "price": price,
-            "upper_price": price + 30,
-            "lower_price": price - 30,
+    preds = []
+    for k in range(1, len(predictions) + 1):
+        preds.append({
+            "price": predictions[k - 1],
             "time": time + k * 1000 * 60 * 5
         })
-
-    anomalies = [0] * len(predictions)
-
-    for k, prediction in enumerate(predictions):
-        prediction["anomaly"] = anomalies[k]
-
-    return {"actual": data, "predicted": predictions}
+    
+    return {"actual": prices, "predicted": preds}
 
 
 @app.get("/backtest/{ticker}")

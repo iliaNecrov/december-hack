@@ -24,7 +24,7 @@ class Strategy(ABC):
     def __init__(self, name: str) -> None:
         self.name = name
 
-    def make_decision(self, state: pd.DataFrame | np.ndarray, available_decisions: List[Decision], **kwargs) -> Decision:
+    def make_decision(self, state: np.ndarray, available_decisions: List[Decision], **kwargs) -> Decision:
         """
         Принимает на вход состояние рынка в конкретный момент времени. 
         Для каждой точки возвращает список решений, принятых для каждой точки.
@@ -32,7 +32,7 @@ class Strategy(ABC):
 
         raise NotImplementedError
     
-    def compute_price(self, state: pd.DataFrame | np.ndarray, **kwargs) -> float:
+    def compute_price(self, state: np.ndarray, **kwargs) -> float:
         """
         Принимает на вход состояние рынка в конкретный момент времени.
         Возвращает стоимость акции. 
@@ -53,7 +53,7 @@ class ReinforcementLearningStrategy(Strategy):
             DiscreteAction("Buy 1 ticker(s)", number=0), DiscreteAction("Sell 1 ticker(s)", number=1), DiscreteAction("Wait", number=2)
         ])
 
-    def make_decision(self, state: pd.DataFrame | np.ndarray, available_decisions: List[Decision], **kwargs) -> Decision:
+    def make_decision(self, state: np.ndarray, available_decisions: List[Decision], **kwargs) -> Decision:
         balance, n_stock = kwargs["balance"], kwargs["n_stock"]
 
         state = State(components=torch.tensor([balance, n_stock, self.compute_price(state)]))
@@ -64,7 +64,7 @@ class ReinforcementLearningStrategy(Strategy):
 
         return self._transform_action_to_decision(action)
     
-    def compute_price(self, state: pd.DataFrame | np.ndarray) -> float:
+    def compute_price(self, state: np.ndarray) -> float:
         return state.pr_open
     
     def _transform_decisions_to_actions(self, decisions: List[Decision]) -> List[DiscreteAction]:
@@ -101,7 +101,7 @@ class MockStrategy(Strategy):
         self.sell_threshold = 251
         self.buy_threshold = 250
 
-    def make_decision(self, state: pd.DataFrame | np.ndarray, available_decisions: List[Decision]) -> Decision:
+    def make_decision(self, state: np.ndarray, available_decisions: List[Decision]) -> Decision:
         if state.pr_open > self.sell_threshold:
             decision = Decision(code="Sell")
         
@@ -113,7 +113,7 @@ class MockStrategy(Strategy):
             
         return Decision("Hold")
         
-    def compute_price(self, state: pd.DataFrame | np.ndarray) -> float:
+    def compute_price(self, state: np.ndarray) -> float:
         return state.pr_open
     
 
@@ -122,8 +122,8 @@ class ForecastingStrategy(Strategy):
     def __init__(self, name: str) -> None:
         super().__init__(name)
 
-    def make_decision(self, state: pd.DataFrame | np.ndarray, available_decisions: List[Decision]) -> Decision:
+    def make_decision(self, state: np.ndarray, available_decisions: List[Decision]) -> Decision:
         return super().make_decision(state, available_decisions)
     
-    def compute_price(self, state: pd.DataFrame | np.ndarray) -> float:
+    def compute_price(self, state: np.ndarray) -> float:
         return super().compute_price(state)

@@ -23,7 +23,7 @@ def get_tickers_from_moex() -> List[str]:
     return ["SBER", "YNDX", "VKCO", "OZON", "TCSG"]
 
 
-def get_ticker_info_from_moex(ticker: str, price_column: str = DEFAULT_PRICE_COLUMN) -> List[Dict[str, float | int]]:
+def get_ticker_info_from_moex(ticker: str, price_column: str = DEFAULT_PRICE_COLUMN) -> List[Dict[str, float]]:
     """Возвращает цену акци "price_columns" за последние "DEFAULT_TIME_DELTA_IN_DAYS" дня с текущего.
        Формат: [{"price": float, "time": int}]}.
     """
@@ -39,11 +39,8 @@ def get_ticker_info_from_moex(ticker: str, price_column: str = DEFAULT_PRICE_COL
     if not isinstance(ticker_data, pd.DataFrame):
         ticker_data = pd.DataFrame(ticker_data)
 
-    timestamps = ticker_data.ts.apply(lambda d: int(d.timestamp() * MILISECONDS_IN_SECOND)).tolist()
+    return ticker_data
 
-    prices = ticker_data[price_column].tolist()
-
-    return [{"price": price, "time": timestamp} for price, timestamp in zip(prices, timestamps)]
 
 
 
