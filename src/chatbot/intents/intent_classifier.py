@@ -45,7 +45,11 @@ class IntentClassifier:
             return gpt.get_response(message)
         
         intent = cls.intents[intent_class]
-
-        return intent.get_result(message)
+        
+        try:
+            return intent.get_result(message)
+        except Exception as e:
+            print(e)
+            return "Не удалось выполнить запрос, попробуйте еще раз!"
         
 
