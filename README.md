@@ -11,3 +11,5 @@ Backend состоит из нескольких независимых моду
 2) uvicorn main:app --host 0.0.0.0 --port 8000
 
 В strategies есть модуль rl - библиотека для создания агентов, обученных при помощи Reinforcement Learning.
+
+При проблеме с запуском - https://t.me/kimbrisvv
