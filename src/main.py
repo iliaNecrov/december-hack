@@ -52,7 +52,7 @@ def ticker_info_for_plot(ticker: str):
     preds = []
     for k in range(len(predictions)):
         preds.append({
-            "price": predictions[k] - prices[-1]["price"],
+            "price": predictions[k] - (predictions[0] - prices[-1]["price"]),
             "time": time + k * 1000 * 60 * 5
         })
     
